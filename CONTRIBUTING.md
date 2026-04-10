@@ -1,119 +1,302 @@
 # Contributing to OpenClaude
 
-Thanks for contributing.
+Thanks for your interest in contributing to OpenClaude!
 
-OpenClaude is a fast-moving open-source coding-agent CLI with support for multiple providers, local backends, MCP, and a terminal-first workflow. The best contributions here are focused, well-tested, and easy to review.
+---
 
-## Before You Start
+## 📋 Before You Start
 
-- Search existing [issues](https://github.com/Gitlawb/openclaude/issues) and [discussions](https://github.com/Gitlawb/openclaude/discussions) before opening a new thread.
-- Use issues for confirmed bugs and actionable feature work.
-- Use discussions for setup help, ideas, and general community conversation.
-- For larger changes, open an issue first so the scope is clear before implementation.
-- For security reports, follow [SECURITY.md](SECURITY.md).
+- Search existing [issues](https://github.com/yourusername/openclaude/issues) before opening a new one
+- Use issues for confirmed bugs and actionable features
+- For larger changes, open an issue first to discuss scope
+- For security reports, follow [SECURITY.md](SECURITY.md)
 
-## Local Setup
+---
 
-Install dependencies:
+## 🛠️ Local Setup
+
+### Prerequisites
+
+- **Bun** (recommended) or Node.js 18+
+- **Git**
+- **ripgrep** (for search functionality)
+
+### Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/yourusername/openclaude.git
+cd openclaude
+
+# Install dependencies
 bun install
-```
 
-Build the CLI:
-
-```bash
+# Build
 bun run build
-```
 
-Smoke test:
-
-```bash
+# Test
 bun run smoke
 ```
 
-Run the app locally:
+### Run Locally
 
 ```bash
+# Development mode
 bun run dev
+
+# With specific provider
+bun run dev:ollama
+bun run dev:openai
+bun run dev:gemini
 ```
 
-If you are working on provider setup or saved profiles, useful commands include:
+---
+
+## 🔄 Development Workflow
+
+### Keep PRs Focused
+
+- One problem or feature per PR
+- Clear, descriptive commit messages
+- Reference related issues
+
+### Code Style
+
+- Follow existing patterns
+- Use TypeScript strict mode
+- Add type annotations
+- Keep functions small and focused
+
+### Testing
 
 ```bash
-bun run profile:init
-bun run dev:profile
+# Run all tests
+bun test
+
+# Run specific test file
+bun test src/utils/test.test.ts
+
+# Run with coverage
+bun run test:coverage
 ```
 
-## Development Workflow
+---
 
-- Keep PRs focused on one problem or feature.
-- Avoid mixing unrelated cleanup into the same change.
-- Preserve existing repo patterns unless the change is intentionally refactoring them.
-- Add or update tests when the change affects behavior.
-- Update docs when setup, commands, or user-facing behavior changes.
+## 📝 Commit Guidelines
 
-## Validation
+### Commit Message Format
 
-At minimum, run the most relevant checks for your change.
+```
+type(scope): description
 
-Common checks:
+[optional body]
+```
 
+### Types
+
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+### Examples
+
+```
+feat(tools): add support for PDF reading
+fix(bash): handle sandbox restrictions correctly
+docs(readme): update installation instructions
+```
+
+---
+
+## 🧪 Testing Requirements
+
+### Before Submitting
+
+- [ ] All existing tests pass
+- [ ] New features have tests
+- [ ] Code coverage maintained or improved
+- [ ] Type checking passes (`bun run typecheck`)
+- [ ] Build succeeds (`bun run build`)
+
+### Test Categories
+
+**Unit Tests**: Test individual functions and utilities
 ```bash
-bun run build
-bun run smoke
+bun test src/utils/
 ```
 
-Focused tests:
-
+**Integration Tests**: Test tool interactions
 ```bash
-bun test ./path/to/test-file.test.ts
+bun test src/tools/
 ```
 
-When working on provider/runtime setup, this can also help:
-
+**Provider Tests**: Test API integrations
 ```bash
-bun run doctor:runtime
+bun run test:provider
 ```
 
-## Pull Requests
+---
 
-Good PRs usually include:
+## 📚 Documentation
 
-- a short explanation of what changed
-- why it changed
-- the user or developer impact
-- the exact checks you ran
+### Update Documentation
 
-If the PR touches UI, terminal presentation, or the VS Code extension, include screenshots when useful.
+When adding features:
+- Update README.md if needed
+- Add inline code comments
+- Update type definitions
+- Add examples to docs/
 
-If the PR changes provider behavior, mention which provider path was tested.
+### Code Comments
 
-## Code Style
+- Explain "why", not "what"
+- Document complex logic
+- Note edge cases
+- Include examples for public APIs
 
-- Follow the existing code style in the touched files.
-- Prefer small, readable changes over broad rewrites.
-- Do not reformat unrelated files just because they are nearby.
-- Keep comments useful and concise.
+---
 
-## Provider Changes
+## 🎯 Areas for Contribution
 
-OpenClaude supports multiple provider paths. If you change provider logic:
+### High Priority
 
-- be explicit about which providers are affected
-- avoid breaking third-party providers while fixing first-party behavior
-- test the exact provider/model path you changed when possible
-- call out any limitations or follow-up work in the PR description
+- [ ] Original prompts implementation
+- [ ] Test coverage improvement
+- [ ] Error message clarity
+- [ ] Documentation improvements
 
-## Community
+### Medium Priority
 
-Please be respectful and constructive with other contributors.
+- [ ] Performance optimizations
+- [ ] New provider integrations
+- [ ] Tool enhancements
+- [ ] UI/UX improvements
 
-Maintainers may ask for:
+### Low Priority
 
-- narrower scope
-- focused follow-up PRs
-- stronger validation
-- docs updates for behavior changes
+- [ ] Refactoring
+- [ ] Code style improvements
+- [ ] Minor bug fixes
 
-That is normal and helps keep the project reviewable as it grows.
+---
+
+## 🔒 Security Considerations
+
+### Code Security
+
+- No hardcoded secrets
+- Validate all inputs
+- Use sandbox restrictions
+- Follow permission model
+
+### Sensitive Operations
+
+Always require user confirmation for:
+- Destructive file operations
+- Network requests
+- Command execution
+- System modifications
+
+---
+
+## 📦 Pull Request Process
+
+### Before Submitting
+
+1. **Rebase** on latest main
+   ```bash
+   git fetch origin
+   git rebase origin/main
+   ```
+
+2. **Run all checks**
+   ```bash
+   bun run build
+   bun test
+   bun run typecheck
+   ```
+
+3. **Update documentation** if needed
+
+4. **Add tests** for new features
+
+### PR Template
+
+```markdown
+## Description
+Brief description of changes
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Tests added/updated
+- [ ] All tests passing
+- [ ] Type checking passing
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Documentation updated
+- [ ] No security issues introduced
+```
+
+---
+
+## 🤝 Code Review
+
+### What Reviewers Look For
+
+- **Correctness**: Does it work as intended?
+- **Security**: Are there security issues?
+- **Performance**: Is it efficient?
+- **Maintainability**: Is it readable and well-structured?
+- **Testing**: Are there adequate tests?
+
+### Response Time
+
+- Initial review: Within 2-3 days
+- Follow-up reviews: Within 1-2 days
+- Urgent fixes: Within 24 hours
+
+---
+
+## 📞 Getting Help
+
+### Resources
+
+- **Documentation**: See `docs/` folder
+- **Issues**: [GitHub Issues](https://github.com/yourusername/openclaude/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/openclaude/discussions)
+
+### Questions
+
+For general questions:
+1. Check existing discussions
+2. Search closed issues
+3. Open a new discussion
+
+---
+
+## 🎉 Recognition
+
+Contributors are recognized in:
+- README.md contributors section
+- Release notes
+- Project documentation
+
+---
+
+## 📜 License
+
+By contributing, you agree that your contributions will be licensed under the same license as the project (MIT License for original code).
+
+---
+
+**Thank you for contributing to OpenClaude! 🚀**

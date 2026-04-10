@@ -2,26 +2,38 @@
 
 This guide uses Windows PowerShell.
 
-## 1. Install Node.js
+## Prerequisites
 
-Install Node.js 20 or newer from:
+- **Node.js 18+** or **Bun** - [Download Node.js](https://nodejs.org) | [Download Bun](https://bun.sh)
+- **Git** (optional) - [Download Git](https://git-scm.com)
+- **ripgrep** (optional) - `winget install BurntSushi.ripgrep.MSVC`
 
-- `https://nodejs.org/`
+## 1. Installation
 
-Then open PowerShell and check it:
+### Option A: From Source (Recommended)
 
 ```powershell
-node --version
-npm --version
+# Clone repository
+git clone https://github.com/yourusername/openclaude.git
+cd openclaude
+
+# Install dependencies
+bun install
+
+# Build
+bun run build
+
+# Run
+.\openclaude.bat
 ```
 
-## 2. Install OpenClaude
+### Option B: From npm (Coming Soon)
 
 ```powershell
 npm install -g @gitlawb/openclaude
 ```
 
-## 3. Pick One Provider
+## 2. Configure Provider
 
 ### Option A: OpenAI
 
@@ -93,6 +105,24 @@ Replace `your-model-name` with the model name shown in LM Studio.
 
 No API key is needed for LM Studio local models (but uncomment the `OPENAI_API_KEY` line if you hit auth errors).
 
+## 3. Development Commands
+
+```powershell
+# Development mode
+bun run dev
+
+# With specific provider
+bun run dev:ollama
+bun run dev:openai
+bun run dev:gemini
+
+# Run tests
+bun test
+
+# Type checking
+bun run typecheck
+```
+
 ## 4. If `openclaude` Is Not Found
 
 Close PowerShell, open a new one, and try again:
@@ -101,7 +131,7 @@ Close PowerShell, open a new one, and try again:
 openclaude
 ```
 
-## 5. If Your Provider Fails
+## 5. Troubleshooting
 
 Check the basics:
 
@@ -127,6 +157,12 @@ Check the basics:
 ## 6. Updating OpenClaude
 
 ```powershell
+# If installed from source
+git pull origin main
+bun install
+bun run build
+
+# If installed from npm (coming soon)
 npm install -g @gitlawb/openclaude@latest
 ```
 
